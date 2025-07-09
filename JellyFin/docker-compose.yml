@@ -1,3 +1,4 @@
+# /home/flacko/JellyFin/docker-compose.yml
 services:
   jellyfin:
     image: linuxserver/jellyfin
