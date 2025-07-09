@@ -1,4 +1,5 @@
 # Save this as /etc/systemd/system/jellyfin-stack.service:
+# sudo systemctl enable jellyfin-stack
 [Unit]
 Description=Jellyfin + Usenet Arr Stack
 After=docker.service
