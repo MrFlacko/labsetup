@@ -7,4 +7,4 @@ sudo ufw allow 80
 sudo certbot certonly -d YOUR.DOMAIN.COM
 sudo systemctl start nginx
 # Option 1 
-sudo rm /etc/nginx/sites-available/default
+sudo echo > /etc/nginx/sites-available/default
