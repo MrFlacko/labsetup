@@ -1,0 +1,15 @@
+Host alfrouter
+    HostName 172.16.0.1
+    User flacko
+    KexAlgorithms +diffie-hellman-group1-sha1
+    HostKeyAlgorithms +ssh-rsa
+    PubkeyAcceptedAlgorithms +ssh-rsa
+    Ciphers +aes128-cbc
+
+Host alfswitch
+    HostName 172.16.0.20
+    User flacko
+    KexAlgorithms +diffie-hellman-group1-sha1
+    HostKeyAlgorithms +ssh-rsa
+    PubkeyAcceptedAlgorithms +ssh-rsa
+    Ciphers +aes128-cbc
