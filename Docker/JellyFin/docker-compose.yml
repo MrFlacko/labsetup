@@ -22,7 +22,6 @@ services:
     container_name: sabnzbd
     volumes:
       - /mnt/big/SabDownloads/config/sab:/config
-      - /mnt/big/SabDownloads/:/config/downloads
     ports: [8080:8080]
     environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
     restart: unless-stopped
