@@ -64,7 +64,9 @@ services:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     volumes:
-      - /srv/media/config/jellyseerr:/config
-    ports: [5055:5055]
-    environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
+      - /srv/media/config/jellyseerr:/app/config
+    ports:
+      - "5055:5055"
+    environment:
+      - TZ=Australia/Melbourne
     restart: unless-stopped
