@@ -32,7 +32,6 @@ services:
     volumes:
       - /srv/media/config/sonarr:/config
       - /srv/media/tv:/tv
-      - /mnt/big/sabdownloads/Downloads/complete:/downloads
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/SabDownloads:/sabdownloads
     ports: [8989:8989]
@@ -44,7 +43,6 @@ services:
     container_name: radarr
     volumes:
       - /srv/media/config/radarr:/config
-      - /mnt/big/sabdownloads/Downloads/complete:/downloads
       - /mnt/big/Movies:/mnt/big/Movies
     ports: [7878:7878]
     environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
