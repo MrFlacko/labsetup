@@ -7,5 +7,5 @@ sudo mkdir -p /srv/media/config/jellyseerr
 sudo chown 1000:1000 /srv/media/config/jellyseerr
 
 # SABnzbd
-sudo mkdir -p /mnt/big/SabDownloads/{Movies, Shows}
-sudo chown 1000:1000 /mnt/big/SabDownloads/{Movies, Shows}
+sudo mkdir -p /mnt/big/SabDownloads/{Movies,Shows}
+sudo chown 1000:1000 /mnt/big/SabDownloads/{Movies,Shows}
