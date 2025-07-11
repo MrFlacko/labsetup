@@ -1,0 +1,31 @@
+network:
+  version: 2
+  ethernets:
+
+    # Disabled
+    enp5s0f0:
+      dhcp4: no
+      link-local: []
+      optional: true
+    eno1:
+      dhcp4: no
+      link-local: []
+      optional: true
+    eno2:
+      dhcp4: no
+      link-local: []
+      optional: true
+
+    # Enabled
+    enp5s0f1:
+      addresses:
+      - "172.16.0.10/24"
+      nameservers:
+        addresses:
+        - 172.16.0.1
+        - 1.1.1.1
+        search: []
+      dhcp4: false
+      routes:
+      - to: "default"
+        via: "172.16.0.1"
