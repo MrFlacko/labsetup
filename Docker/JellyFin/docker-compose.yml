@@ -22,7 +22,10 @@ services:
       - /srv/media/config/sab:/config
       - /mnt/big/SabDownloads:/downloads
     ports: [8080:8080]
-    environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
     restart: unless-stopped
 
   sonarr:
@@ -31,9 +34,12 @@ services:
     volumes:
       - /srv/media/config/sonarr:/config
       - /mnt/big/Shows:/mnt/big/Shows
-      - /mnt/big/SabDownloads:/config/Downloads
+      - /mnt/big/SabDownloads:/downloads
     ports: [8989:8989]
-    environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
     restart: unless-stopped
 
   radarr:
@@ -42,9 +48,12 @@ services:
     volumes:
       - /srv/media/config/radarr:/config
       - /mnt/big/Movies:/mnt/big/Movies
-      - /mnt/big/SabDownloads:/config/Downloads
+      - /mnt/big/SabDownloads:/downloads
     ports: [7878:7878]
-    environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
     restart: unless-stopped
 
   prowlarr:
@@ -53,7 +62,10 @@ services:
     volumes:
       - /srv/media/config/prowlarr:/config
     ports: [9696:9696]
-    environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
     restart: unless-stopped
 
   jellyseerr:
