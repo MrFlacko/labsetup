@@ -16,10 +16,12 @@ echo \
 sudo apt update
 sudo apt install -y cloudflared
 
+cd ~/.cloudflared
 cloudflared tunnel login
 # Opens a browser, log in and select the domain
 cloudflared tunnel create homelab-tunnel # Creates your tunnel with cloudflare to your server
 cloudflared tunnel route dns homelab-tunnel watch.flacko.net #Creates a cname on cloudflare to allow public searching when authenticated
+cloudflared tunnel route dns homelab-tunnel request.flacko.net
 
 ## Within the cloudflare website
 # Open Zero trusts and set up a new workspace
