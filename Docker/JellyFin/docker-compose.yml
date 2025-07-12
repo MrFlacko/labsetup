@@ -4,8 +4,6 @@ services:
     container_name: jellyfin
     volumes:
       - /srv/media/config/jellyfin:/config
-      - /srv/media/movies:/movies
-      - /srv/media/tv:/tv
       - /mnt/big/Movies:/mnt/big/Movies
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/Music:/mnt/big/Music
@@ -21,8 +19,8 @@ services:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
     volumes:
-      - /srv/media/config:/config
-      - /mnt/big/SabDownloads:/config/Downloads
+      - /srv/media/config/sab:/config
+      - /mnt/big/SabDownloads:/downloads
     ports: [8080:8080]
     environment: [PUID=1000, PGID=1000, TZ=Australia/Melbourne]
     restart: unless-stopped
@@ -32,7 +30,6 @@ services:
     container_name: sonarr
     volumes:
       - /srv/media/config/sonarr:/config
-      - /srv/media/tv:/tv
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/SabDownloads:/config/Downloads
     ports: [8989:8989]
