@@ -4,6 +4,7 @@ services:
     container_name: jellyfin
     volumes:
       - /srv/media/config/jellyfin:/config
+      - /mnt/big/Jellyfinstorage/cache:/config/cache
       - /mnt/big/Movies:/mnt/big/Movies
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/Music:/mnt/big/Music
