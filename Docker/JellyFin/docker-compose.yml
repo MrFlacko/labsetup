@@ -5,6 +5,7 @@ services:
     volumes:
       - /srv/media/config/jellyfin:/config
       - /mnt/big/Jellyfinstorage/cache:/config/cache
+      - /srv/media/config/jellyfin/ssl:/config/ssl:ro
       - /mnt/big/Movies:/mnt/big/Movies
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/Music:/mnt/big/Music
