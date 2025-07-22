@@ -10,7 +10,9 @@ services:
       - /mnt/big/Shows:/mnt/big/Shows
       - /mnt/big/Music:/mnt/big/Music
       - /mnt/big/Books:/mnt/big/Books
-    ports: [8096:8096]
+    ports:
+      - 8096:8096
+      - 8920:8920
     environment:
       - PUID=1000
       - PGID=1000
