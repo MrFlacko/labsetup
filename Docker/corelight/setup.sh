@@ -18,13 +18,14 @@ redef LogAscii::json_timestamps = JSON::TS_EPOCH;
 EOF
 
 # KIBANA CONFIG (NO xpack.security.enabled HERE)
+# random charactors gets rid of the openssl warnings
 sudo tee /mnt/big/Docker/corelight/kibana.yml >/dev/null <<'EOF'
 server.publicBaseUrl: "http://localhost:5601"
 elasticsearch.hosts: ["http://elasticsearch:9200"]
 
-xpack.security.encryptionKey: "some-32+ char random string"
-xpack.encryptedSavedObjects.encryptionKey: "another-32+ char string"
-xpack.reporting.encryptionKey: "another-32+ char string"
+xpack.security.encryptionKey: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+xpack.encryptedSavedObjects.encryptionKey: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+xpack.reporting.encryptionKey: cccccccccccccccccccccccccccccccc
 
 EOF
 
