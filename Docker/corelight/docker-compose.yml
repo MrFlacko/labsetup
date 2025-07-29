@@ -1,12 +1,9 @@
-version: "3.8"
-
 services:
   zeek:
     image: blacktop/zeek
     container_name: zeek
     network_mode: host
     privileged: true
-    # -l sets log dir; we load our JSON config directly
     command: zeek -i enp5s0f0 -l /logs /config/local.zeek
     volumes:
       - /mnt/big/Docker/corelight/zeek-logs:/logs
@@ -29,6 +26,8 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
       - bootstrap.memory_lock=true
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ulimits:
@@ -44,23 +43,27 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:8.13.2
     container_name: kibana
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - "5601:5601"
     depends_on:
       - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - INTERACTIVE_SETUP_ENABLED=false
+      - SERVER_HOST=0.0.0.0
+    ports:
+      - "5601:5601"
+    volumes:
+      - /mnt/big/Docker/corelight/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     restart: unless-stopped
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:8.13.2
     container_name: filebeat
     user: root
+    depends_on:
+      - elasticsearch
+      - kibana
     volumes:
       - /mnt/big/Docker/corelight/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /mnt/big/Docker/corelight/zeek-logs:/logs/zeek:ro
       - /mnt/big/Docker/corelight/suricata-logs:/logs/suricata:ro
-    depends_on:
-      - elasticsearch
-      - kibana
     restart: unless-stopped
