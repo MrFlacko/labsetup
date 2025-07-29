@@ -1,13 +1,15 @@
 services:
   zeek:
-    image: blacktop/zeek
+    image: blacktop/zeek:latest
     container_name: zeek
     network_mode: host
     privileged: true
-    command: zeek -i enp5s0f0 -l /logs /config/local.zeek
+    entrypoint: ["/usr/local/zeek/bin/zeek"]
+    command: ["-i", "enp5s0f0", "local.zeek"]
+    working_dir: /pcap
     volumes:
-      - /mnt/big/Docker/corelight/zeek-logs:/logs
-      - /mnt/big/Docker/corelight/zeek-local.zeek:/config/local.zeek:ro
+      - /mnt/big/Docker/corelight/zeek-logs:/pcap
+      - /mnt/big/Docker/corelight/zeek-local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
     restart: unless-stopped
 
   suricata:
