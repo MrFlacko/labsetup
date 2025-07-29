@@ -13,8 +13,7 @@ sudo sysctl -w vm.max_map_count=262144
 
 # ZEEK JSON CONFIG
 sudo tee /mnt/big/Docker/corelight/zeek-local.zeek >/dev/null <<'EOF'
-redef LogAscii::use_json = T;
-redef LogAscii::json_timestamps = JSON::TS_EPOCH;
+@load policy/tuning/json-logs
 EOF
 
 # KIBANA CONFIG (NO xpack.security.enabled HERE)
@@ -31,46 +30,41 @@ EOF
 
 # FILEBEAT CONFIG (ZEEK + SURICATA -> ES)
 sudo tee /mnt/big/Docker/corelight/filebeat.yml >/dev/null <<'EOF'
-filebeat.inputs:
-  - type: log
-    enabled: true
-    paths: ["/logs/zeek/*.log"]
-    json.keys_under_root: true
-    json.add_error_key: true
-    fields: { log_type: zeek }
+filebeat.modules:
+  - module: zeek
+    connection:
+      enabled: true
+      var.paths: ["/logs/zeek/conn.log*"]
+    dns:
+      enabled: true
+      var.paths: ["/logs/zeek/dns.log*"]
+    http:
+      enabled: true
+      var.paths: ["/logs/zeek/http.log*"]
+    ssl:
+      enabled: true
+      var.paths: ["/logs/zeek/ssl.log*"]
+    notice:
+      enabled: true
+      var.paths: ["/logs/zeek/notice.log*"]
+    files:
+      enabled: true
+      var.paths: ["/logs/zeek/files.log*"]
+    # add more Zeek logs as you like (weird, x509, etc.)
 
-  - type: log
-    enabled: true
-    paths: ["/logs/suricata/eve.json"]
-    json.keys_under_root: true
-    json.add_error_key: true
-    fields: { log_type: suricata }
+  - module: suricata
+    eve:
+      enabled: true
+      var.paths: ["/logs/suricata/eve.json*"]
 
-processors:
-  - timestamp:
-      when: { equals: { fields.log_type: zeek } }
-      field: ts
-      layouts: ["UNIX"]
-      target_field: "@timestamp"
-      ignore_failure: true
-  - timestamp:
-      when: { equals: { fields.log_type: suricata } }
-      field: timestamp
-      layouts: ["RFC3339","2006-01-02T15:04:05Z07:00"]
-      target_field: "@timestamp"
-      ignore_failure: true
-
+# Keep defaults so dashboards/pipelines load correctly
 output.elasticsearch:
   hosts: ["http://elasticsearch:9200"]
-  index: "corelight-%{[fields.log_type]}-%{+yyyy.MM.dd}"
 
-setup.ilm.enabled: false
 setup.kibana.host: "http://kibana:5601"
+setup.ilm.enabled: true
+strict.perms: false
 logging.level: info
-
-setup.template.name: "corelight"
-setup.template.pattern: "corelight-*"
-
 EOF
 
 # PERMISSIONS (ES needs uid 1000; logs OK as root)
@@ -96,3 +90,7 @@ curl -X PUT http://localhost:9200/_index_template/corelight-template \
     "data_stream": { },
     "template": { "settings": { "index.lifecycle.name": "corelight-30d" } }
 }'
+
+# This command can take 5 minutes to load dashboards
+docker exec -it filebeat filebeat setup --dashboards
+
