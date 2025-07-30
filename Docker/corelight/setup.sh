@@ -6,7 +6,7 @@
 #   suricata-logs/        (data)
 #   elasticsearch-data/   (data)
 
-sudo mkdir -p /mnt/big/Docker/corelight/{zeek-logs,suricata-logs,elasticsearch-data}
+sudo mkdir -p /mnt/big/Docker/corelight/{zeek-logs,suricata-logs,elasticsearch-data,filebeat-data}
 
 # KERNEL REQ FOR ES
 sudo sysctl -w vm.max_map_count=262144
@@ -68,7 +68,7 @@ logging.level: info
 EOF
 
 # PERMISSIONS (ES needs uid 1000; logs OK as root)
-sudo chown -R 1000:1000 /mnt/big/Docker/corelight/elasticsearch-data
+sudo chown -R 1000:1000 /mnt/big/Docker/corelight/{elasticsearch-data,filebeat-data}
 sudo chown -R root:root  /mnt/big/Docker/corelight/{zeek-logs,suricata-logs}
 sudo chmod go-w /mnt/big/Docker/corelight/filebeat.yml
 sudo chmod -R 775 /mnt/big/Docker/corelight
